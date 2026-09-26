@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'colors.dart';
-import 'widgets.dart';
+import '../widgets/widgets.dart';
 import 'goals_list_screen.dart' show SavingsGoal;
 
 class GoalDetailScreen extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'colors.dart';
+import '../screens/colors.dart';
 
 class AppCard extends StatelessWidget {
   const AppCard({

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'colors.dart';
-import 'widgets.dart';
+import '../widgets/widgets.dart';
 import 'goal_detail_screen.dart';
 import 'create_goal_screen.dart';
 import 'home_screen.dart';

@@ -131,24 +131,30 @@ class _AddIncomeScreenState extends State<AddIncomeScreen> {
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
                     ),
                   ),
-                  const SizedBox(width: 48), // balances the back button
+                  const SizedBox(width: 48),
                 ],
               ),
               const SizedBox(height: 16),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // TODO: swap for your real illustration/icon asset
                   Container(
                     width: 88,
                     height: 88,
                     decoration: BoxDecoration(
+                      color: primaryGreen.withOpacity(0.12),
                       shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [primaryGreen, Colors.black],
-                      ),
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Icon(Icons.savings_outlined, color: primaryGreen, size: 40),
+                        Positioned(
+                          top: 18,
+                          right: 18,
+                          child: Icon(Icons.trending_up, color: primaryGreen, size: 20),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(width: 16),

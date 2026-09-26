@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../screens/login_screen.dart';
+import 'login_screen.dart';
 import '../widgets/onboarding_page.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -15,7 +15,6 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController pageController = PageController();
 
-  
   int currentPage = 0;
 
   final List<Map<String, String>> pages = [
@@ -39,7 +38,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     },
   ];
 
-
   void openLogin() {
     Navigator.pushReplacement(
       context,
@@ -49,7 +47,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  
   void nextPage() {
     if (currentPage < pages.length - 1) {
       pageController.nextPage(
@@ -57,12 +54,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         curve: Curves.easeInOut,
       );
     } else {
-      
       openLogin();
     }
   }
 
-  // Skip onboarding -> Login
   void skipOnboarding() {
     openLogin();
   }
@@ -77,63 +72,35 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       body: SafeArea(
         child: Column(
           children: [
-
-  
-
             Align(
               alignment: Alignment.topRight,
-
               child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 20,
-                  right: 25,
-                ),
-
+                padding: const EdgeInsets.only(top: 20, right: 25),
                 child: GestureDetector(
                   onTap: skipOnboarding,
-
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
-
                     children: const [
-                      Text(
-                        'skip',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
-                      ),
-
+                      Text('skip', style: TextStyle(fontSize: 16, color: Colors.black)),
                       SizedBox(width: 8),
-
-                      Icon(
-                        Icons.arrow_forward,
-                        size: 25,
-                        color: Colors.black,
-                      ),
+                      Icon(Icons.arrow_forward, size: 25, color: Colors.black),
                     ],
                   ),
                 ),
               ),
             ),
-
-       
             Expanded(
               child: PageView.builder(
                 controller: pageController,
-
                 itemCount: pages.length,
-
                 onPageChanged: (index) {
                   setState(() {
                     currentPage = index;
                   });
                 },
-
                 itemBuilder: (context, index) {
                   return OnboardingPage(
                     image: pages[index]['image']!,
@@ -143,73 +110,38 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 },
               ),
             ),
-
             Padding(
-              padding: const EdgeInsets.only(
-                left: 40,
-                right: 55,
-                bottom: 45,
-              ),
-
+              padding: const EdgeInsets.only(left: 40, right: 55, bottom: 45),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                 children: [
-
-              
-
                   Row(
-                    children: List.generate(
-                      pages.length,
-                      (index) {
-                        return Container(
-                          margin: const EdgeInsets.only(
-                            right: 6,
-                          ),
-
-                          width: 12,
-                          height: 12,
-
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-
-                            color: currentPage == index
-                                ? Colors.black
-                                : Colors.grey.shade400,
-                          ),
-                        );
-                      },
-                    ),
+                    children: List.generate(pages.length, (index) {
+                      return Container(
+                        margin: const EdgeInsets.only(right: 6),
+                        width: 12,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: currentPage == index ? Colors.black : Colors.grey.shade400,
+                        ),
+                      );
+                    }),
                   ),
-
-       
-
                   SizedBox(
                     width: 94,
                     height: 40,
-
                     child: ElevatedButton(
                       onPressed: nextPage,
-
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF0B4D08),
+                        backgroundColor: const Color(0xFF154808),
                         foregroundColor: Colors.white,
-
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero,
-                        ),
-
+                        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
                         elevation: 0,
                       ),
-
                       child: Text(
-                        currentPage == pages.length - 1
-                            ? 'START'
-                            : 'NEXT',
-
-                        style: const TextStyle(
-                          fontSize: 13,
-                        ),
+                        currentPage == pages.length - 1 ? 'START' : 'NEXT',
+                        style: const TextStyle(fontSize: 13),
                       ),
                     ),
                   ),

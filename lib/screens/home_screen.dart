@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'add_income_screen.dart';
+import 'goals_list_screen.dart';
+import 'app_bottom_nav.dart';
+import 'transactions_screen.dart';
+import 'more_screen.dart';
+import 'transaction.dart';
+import 'transaction_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -8,59 +14,40 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _Transaction {
-  final String title;
-  final String category;
-  final String date;
-  final double amount;
-  final bool isIncome;
-  final IconData icon;
-  final Color color;
-
-  const _Transaction({
-    required this.title,
-    required this.category,
-    required this.date,
-    required this.amount,
-    required this.isIncome,
-    required this.icon,
-    required this.color,
-  });
-}
-
 class _HomeScreenState extends State<HomeScreen> {
   static const Color primaryGreen = Color(0xFF154808);
   static const Color bg = Color(0xFFF5F5F5);
 
-  int _navIndex = 0;
-
-  final List<_Transaction> _transactions = const [
-    _Transaction(
+  final List<Transaction> _transactions = [
+    Transaction(
       title: 'Salary',
       category: 'Income',
       date: '24 sep 2026',
+      time: '10:00am',
       amount: 120000,
-      isIncome: true,
+      sign: '+',
       icon: Icons.arrow_upward,
       color: primaryGreen,
     ),
-    _Transaction(
+    Transaction(
       title: 'Food',
       category: 'Expense',
       date: '22 sep 2026',
+      time: '1:15pm',
       amount: 25000,
-      isIncome: false,
+      sign: '-',
       icon: Icons.shopping_basket_outlined,
-      color: Color(0xFF6A1B9A),
+      color: const Color(0xFF6A1B9A),
     ),
-    _Transaction(
+    Transaction(
       title: 'Transport',
       category: 'Expense',
       date: '21 sep 2026',
+      time: '8:30am',
       amount: 15000,
-      isIncome: false,
+      sign: '-',
       icon: Icons.directions_car_outlined,
-      color: Color(0xFFD81B60),
+      color: const Color(0xFFD81B60),
     ),
   ];
 
@@ -118,7 +105,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     const Spacer(),
                                     const Icon(Icons.notifications_none, color: Colors.white, size: 24),
                                     const SizedBox(width: 14),
-                                    // TODO: swap for the user's real profile image
                                     const CircleAvatar(
                                       radius: 18,
                                       backgroundColor: Colors.white24,
@@ -245,9 +231,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               const Text('Recent Transactions', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700)),
                               const Spacer(),
-                              // TODO: point this at your real transactions list screen
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (_) => const TransactionsScreen()),
+                                  );
+                                },
                                 child: const Text('See all >', style: TextStyle(color: Color(0xFF6A1B9A))),
                               ),
                             ],
@@ -262,7 +252,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            _bottomNav(),
+            AppBottomNav(
+              currentIndex: 0,
+              onAddTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const AddIncomeScreen()),
+                );
+              },
+              onTabTap: (i) {
+                if (i == 1) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const TransactionsScreen()),
+                  );
+                } else if (i == 3) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const GoalsListScreen()),
+                  );
+                } else if (i == 4) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const MoreScreen()),
+                  );
+                }
+              },
+            ),
           ],
         ),
       ),
@@ -302,114 +318,57 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _transactionTile(_Transaction t) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8, offset: const Offset(0, 3)),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(color: t.color, shape: BoxShape.circle),
-            child: Icon(t.icon, color: Colors.white, size: 18),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(t.title, style: const TextStyle(fontWeight: FontWeight.w700)),
-                Text('${t.category} . ${t.date}', style: const TextStyle(color: Colors.black54, fontSize: 12)),
-              ],
+  Widget _transactionTile(Transaction t) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => TransactionDetailScreen(transaction: t)),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8, offset: const Offset(0, 3)),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(color: t.color, shape: BoxShape.circle),
+              child: Icon(t.icon, color: Colors.white, size: 18),
             ),
-          ),
-          Text(
-            '${t.isIncome ? '+' : '-'} ${_money(t.amount)}',
-            style: TextStyle(
-              color: t.isIncome ? primaryGreen : Colors.red,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _bottomNav() {
-    final items = [
-      {'icon': Icons.home_outlined, 'label': 'Home'},
-      {'icon': Icons.description_outlined, 'label': 'Transactions'},
-      {'icon': Icons.add, 'label': ''},
-      {'icon': Icons.track_changes_outlined, 'label': 'Goals'},
-      {'icon': Icons.grid_view_outlined, 'label': 'More'},
-    ];
-
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(top: BorderSide(color: Color(0xFFE0E0E0))),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: List.generate(items.length, (i) {
-          final isCenter = i == 2;
-          final isSelected = _navIndex == i;
-
-          if (isCenter) {
-            return GestureDetector(
-              // TODO: point this at your real "add" flow (income/expense picker, etc.)
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const AddIncomeScreen()),
-                );
-              },
-              child: Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(color: primaryGreen, borderRadius: BorderRadius.circular(12)),
-                child: const Icon(Icons.add, color: Colors.white),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(t.title, style: const TextStyle(fontWeight: FontWeight.w700)),
+                  Text('${t.category} . ${t.date}', style: const TextStyle(color: Colors.black54, fontSize: 12)),
+                ],
               ),
-            );
-          }
-
-          return GestureDetector(
-            // TODO: point each tab at its real destination screen
-            onTap: () => setState(() => _navIndex = i),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  items[i]['icon'] as IconData,
-                  color: isSelected ? primaryGreen : Colors.black45,
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  items[i]['label'] as String,
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: isSelected ? primaryGreen : Colors.black45,
-                  ),
-                ),
-              ],
             ),
-          );
-        }),
+            Text(
+              '${t.sign} ${_money(t.amount)}',
+              style: TextStyle(
+                color: t.sign == '-' ? Colors.red : primaryGreen,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+
 }
 
-/// Clips the header into a shape with a smooth curved dip along the
-/// bottom-left, matching the reference screen's asymmetric header edge.
 class _HeaderClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {

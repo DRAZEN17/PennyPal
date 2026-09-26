@@ -14,7 +14,7 @@ class OtpVerificationScreen extends StatefulWidget {
 
 class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   static const int _codeLength = 4;
-  static const int _startSeconds = 72; // 01:12
+  static const int _startSeconds = 72;
 
   final List<TextEditingController> _controllers =
       List.generate(_codeLength, (_) => TextEditingController());
@@ -27,7 +27,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
   @override
   void initState() {
     super.initState();
-    _controllers[0].text = '3'; // mirrors the pre-filled first digit in the design
+    _controllers[0].text = '3';
     _startTimer();
   }
 

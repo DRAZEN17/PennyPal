@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-/// Central place for PennyPal's colors, text styles and ThemeData.
 class AppColors {
   AppColors._();
 
   static const Color background = Color(0xFFF5F6F3);
-  static const Color darkGreen = Color(0xFF1B3B0F); // primary buttons / title
-  static const Color fieldBorderGreen = Color(0xFF3E8E41); // input outlines
+  static const Color darkGreen = Color(0xFF1B3B0F);
+  static const Color fieldBorderGreen = Color(0xFF3E8E41);
   static const Color textPrimary = Color(0xFF1A1A1A);
   static const Color textHint = Color(0xFF9AA09A);
   static const Color iconGreen = Color(0xFF3E8E41);

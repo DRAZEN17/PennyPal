@@ -37,12 +37,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return;
     }
     setState(() => _isLoading = true);
-
     await Future.delayed(const Duration(seconds: 1));
     if (!mounted) return;
     setState(() => _isLoading = false);
+
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Account created!')),
+      const SnackBar(content: Text('Account created! Please log in.')),
+    );
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const LoginScreen()),
     );
   }
 

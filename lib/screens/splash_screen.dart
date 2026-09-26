@@ -115,13 +115,12 @@ class _SplashScreenState extends State<SplashScreen>
                 child: CustomPaint(
                   size: Size.infinite,
                   painter: _RingClusterPainter(
-                    time: _ambient.value, // 0.0 -> 1.0, looping forever
+                    time: _ambient.value,
                     scale: ringScale,
                     color: rippleColor,
                   ),
                 ),
               ),
-
               Opacity(
                 opacity: _spinnerOpacity.value,
                 child: const SizedBox(
@@ -133,7 +132,6 @@ class _SplashScreenState extends State<SplashScreen>
                   ),
                 ),
               ),
-
               Opacity(
                 opacity: _logoOpacity.value,
                 child: Transform.scale(

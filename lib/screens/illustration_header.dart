@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-
-/// A soft blob background with a centered icon, matching the lock/OTP
-/// illustrations used on Forgot Password / OTP / Reset Password screens.
 class IllustrationHeader extends StatelessWidget {
   const IllustrationHeader({super.key, required this.icon});
 
@@ -22,7 +19,6 @@ class IllustrationHeader extends StatelessWidget {
               borderRadius: BorderRadius.circular(70),
             ),
           ),
-          // sparkle accents
           const Positioned(top: 10, left: 60, child: _Sparkle(color: Color(0xFF9BB8F0), size: 14)),
           const Positioned(top: 30, right: 30, child: _Sparkle(color: Color(0xFF7FD1C4), size: 18)),
           const Positioned(bottom: 40, left: 30, child: _Sparkle(color: Color(0xFFB79BF0), size: 16)),
